@@ -12,9 +12,10 @@ const (
 	krit1 = "seqs/krit1_exons.fasta"
 	ccm2 = "seqs/ccm2_exons.fasta"
 	pdcd10 = "seqs/pdcd10_exons.fasta"
+	eng = "seqs/eng_exons.fasta"
 )
 
-func numLofSnv(filename string) int {
+func numLofSnv(filename string) (lofNum int, totalTested int) {
 	f := fasta.Read(filename)
 	exonIntronJunctions := (len(f) * 2) - 2
 	var seq []dna.Base
@@ -29,7 +30,7 @@ func numLofSnv(filename string) int {
 		possibleLofSnv += lofSnvPerCodon(c)
 	}
 
-	return possibleLofSnv
+	return possibleLofSnv, len(seq) * 3
 }
 
 func lofSnvPerCodon(c dna.Codon) int {
@@ -74,7 +75,15 @@ func allSnvCodons(c dna.Codon) []dna.Codon {
 }
 
 func main() {
-	fmt.Println("KRIT1  LOF: ", numLofSnv(krit1))
-	fmt.Println("CCM2   LOF: ", numLofSnv(ccm2))
-	fmt.Println("PDCD10 LOF: ", numLofSnv(pdcd10))
+	fmt.Printf("KRIT1 LOF/Total:")
+	fmt.Println(numLofSnv(krit1))
+
+	fmt.Printf("CCM2 LOF/Total:")
+	fmt.Println(numLofSnv(ccm2))
+
+	fmt.Printf("PDCD10 LOF/Total:")
+	fmt.Println(numLofSnv(pdcd10))
+
+	fmt.Printf("ENG LOF/Total:")
+	fmt.Println(numLofSnv(eng))
 }
