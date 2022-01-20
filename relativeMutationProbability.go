@@ -23,6 +23,8 @@ func numLofSnv(filename string) (lofNum int, totalTested int) {
 		seq = append(seq, fseq.Seq...)
 	}
 
+	fmt.Println(len(seq))
+
 	var possibleLofSnv int = exonIntronJunctions * 4 * 3 // 4 for +2/-2 canonical sites, 3 for all base but ref
 
 	codons := dna.BasesToCodons(seq)
